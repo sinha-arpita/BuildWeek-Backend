@@ -2,9 +2,11 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const authRouter = require("../auth /authRouter.js");
+
 const usersRouter = require("../users/usersRouter.js");
 const eventsRouter = require("../events/eventsRouter.js");
 const server = express();
+//server.use(require('./routes/adminportal/home.js'));
 server.use(helmet());
 server.use(cors());
 server.use(express.json());

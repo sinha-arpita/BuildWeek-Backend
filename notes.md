@@ -1,3 +1,37 @@
+The very approach to solve this problem:
+will have 3 tables:
+
+TABLE 1 Users Table
+
+userid(auto generate)| username|Password(shouldn't be given here|email          |phone
+12                   |Tony     |Pass                            |Tonya@gmail.com|1234
+13                   |Mony     |Pass                            |Monya@gmail.com|1235
+14                   |Pony     |Pass                            |Ponya@gmail.com|1236
+15                   |Sony     |Pass                            |Sonya@gmail.com|1237
+
+
+TABLE 2 EVENTS Table
+
+eventid(auto generat)| event_name|event_description|date       |Total Expenditure|Paid_by
+1                    |Lunch      |with friends      |28April2019|  90            |12
+2                    |Dinner     |with friends      |20April2019|  100           |13
+3                    |groceries  |with friends |    |27April2019|  40            |12
+
+
+
+TABLE 3 Maps Table(many -many relationship between users and )
+
+eventid(from event table)|user_id(from users table)|to_pay(individual)|
+1                        |12                       |30
+1                        |13                       |30
+1                        |14                       |30
+2                        |12                       |50
+2                        |13                       |50
+3                        |12                       |20
+3                        |14                       |20
+
+
+
 yarn init -y
 yarn 
 yarn add express cors helmet 

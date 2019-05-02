@@ -115,7 +115,7 @@ router.get("/getdues", restircted, async (req, res) => {
 
   //Lookup map table by filter of userId, and get all events for this user
   const eventsPresent = await mapsDB.findBy({ user_id: userId });
-  console.log("Events from map table",eventsPresent); //events .present is an array of objects which  has all the events including userid and paymentpart
+  console.log("Events from map table", eventsPresent); //events .present is an array of objects which  has all the events including userid and paymentpart
   // in which a partyicular user was present
   //res.status(200).json({ message: "returning dues", dues: eventsPresent });
   // {eid1, userId, hisPart1}, {eid2, userId, hisPart2},....{eidn, userId, hisPartn}
@@ -149,14 +149,15 @@ router.get("/getdues", restircted, async (req, res) => {
   // }
   for (i = 0; i < eventsPresent.length; i++) {
     const event = eventsPresent[i];
-    dues.push(
-      {
-        "event_name" : event.event_name,
-        "email" : event.email,
-        "username" : event.username,
-        "amount_to_pay": event.to_pay
-      }
-    )
+    if (event.paid_by == userId) {
+      continue;
+    }
+    dues.push({
+      event_name: event.event_name,
+      email: event.email,
+      username: event.username,
+      amount_to_pay: event.to_pay
+    });
   }
 
   res.status(200).json({ dues: dues });

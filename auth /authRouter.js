@@ -43,6 +43,7 @@ router.post("/login", (req, res) => {
         res.status(200).json({
           message: `Welcome${user.username}!, Here is your token:`,
           token
+          
         });
       } else {
         res.status(400).json({ message: "Invalid Credentials" });
@@ -72,5 +73,6 @@ function generateToken(user) {
   return jwt.sign(payload, jwtKey, options);
 }
 module.exports = router;
+
 
 //localhost:9090/api/auth/register
