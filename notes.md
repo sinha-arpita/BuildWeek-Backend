@@ -12,7 +12,7 @@ userid(auto generate)| username|Password(shouldn't be given here|email          
 
 TABLE 2 EVENTS Table
 
-eventid(auto generat)| event_name|event_description|date       |Total Expenditure|Paid_by
+eventid(auto generat)| event_name|event_description|date       |Total Expenditure|Paid_by(email)
 1                    |Lunch      |with friends      |28April2019|  90            |12
 2                    |Dinner     |with friends      |20April2019|  100           |13
 3                    |groceries  |with friends |    |27April2019|  40            |12

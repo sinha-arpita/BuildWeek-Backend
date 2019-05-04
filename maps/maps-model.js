@@ -11,14 +11,18 @@ async function find() {
   return db("maps");
 }
 
+
 async function findBy(filter) {
   return db
     .select(
+      "events.id",
+      "event_name",
+      "paid_by",
       "event_id",
       "user_id",
       "to_pay",
-      "event_name",
-      "paid_by",
+      
+      
       "username",
       "email"
     )
@@ -27,7 +31,6 @@ async function findBy(filter) {
     .innerJoin("events", "maps.event_id", "=", "events.id")
     .innerJoin("users", "users.id", "=", "events.paid_by");
 }
-
 // getProject:(id)=>{
 //   console.log("Get project ", id)
 //   return db.select("projects.id","project_name","project_description","project_completed").from("projects").

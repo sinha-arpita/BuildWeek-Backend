@@ -12,9 +12,30 @@ function find() {
   return db('events')
 }
 
-function findBy(filter) {
-  return db('events').where(filter);
-}
+
+ 
+      async function findBy(filter) {
+        return db
+          .select(
+      
+            "event_name",
+            "date",
+            "total_expenditure",
+            "paid_by",
+            "event_id",
+            "user_id",
+            "to_pay",
+            "username",
+            "email"
+          )
+          .from("events")
+          .where(filter)
+          .innerJoin("maps", "maps.event_id", "=", "events.id")
+          .innerJoin("users", "maps.user_id", "=", "users.id");
+          
+      }
+  
+
 
 
 

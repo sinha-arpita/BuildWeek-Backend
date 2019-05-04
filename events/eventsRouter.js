@@ -4,7 +4,7 @@ const Users = require("../users/users-model");
 const mapsDB = require("../maps/maps-model.js");
 const { restircted } = require("../auth /authenticate");
 
-router.post("/", async (req, res) => {
+router.post("/", restircted, async (req, res) => {
   //1. Check if event has all properties reauired
 
   //2. Find id of the user paid_by event.paid_by
@@ -15,7 +15,16 @@ router.post("/", async (req, res) => {
 
   try {
     const event = req.body;
-    console.log("Got event ", event);
+    console.log(
+      "Got event ",
+      event,
+      event.event_name,
+      event.date,
+      event.total_expenditure,
+      event.paid_by,
+      event.participants
+      // event.participants.length
+    );
     if (
       event.event_name &&
       event.date &&
@@ -31,6 +40,7 @@ router.post("/", async (req, res) => {
       const users = await Users.findBy({ email: event.paid_by });
 
       if (!users || users.length == 0) {
+        console.log("No user for paid by");
         res.status(400).json({ message: "Invalid paid by user ..." });
         return;
       }
@@ -96,6 +106,7 @@ router.post("/", async (req, res) => {
 
       res.status(200).json({ message: "Event added" });
     } else {
+      console.log("Missed mandatory field ....");
       res.status(400).json({
         message:
           "you have missed the mandatory fields to be filled up;event_name,date,total_expenditure,paid_by are essential fields"
@@ -150,7 +161,7 @@ router.get("/getdues", restircted, async (req, res) => {
   for (i = 0; i < eventsPresent.length; i++) {
     const event = eventsPresent[i];
     if (event.paid_by == userId) {
-      continue;
+      continue; //Skip the events, where this user itself is the paid_byi user
     }
     dues.push({
       event_name: event.event_name,
@@ -176,6 +187,98 @@ router.get("/getdues", restircted, async (req, res) => {
 });
 
 //2. Get my incoming
-router.post("/payin", async (req, res) => {});
+router.get("/recievables", restircted, async (req, res) => {
+  const userId = req.userInfo.subject;
+  // in the maps table  find the user by id and the  all the events he was present
+  const eventsPaidByUser = await eventDB.findBy({ paid_by: userId }); //events  paid by this particular user
+
+  //findBy will return array of events object where user paid.
+  //eventsPaidByUser.length
+  let recievables = []; // {"username" : .., "email" : ..., to_get: ...}
+  console.log("Got entries ", eventsPaidByUser.length);
+  for (let i = 0; i < eventsPaidByUser.length; i++) {
+    const event = eventsPaidByUser[i];
+    console.log("here is the eventsPaidByUser events", event);
+    //const payees = (maps.user_id!=userId)
+    //const TotalMoneyOwes = event.total_expenditure/eventsPresent.participants-1;
+
+    // console.log(payees)
+    // owes.push({
+    //payees
+
+    //})//in event I got everything;
+    //Got entries  in console .log
+// here is the eventsPaidByUser events { event_name: 'name',
+//   date: '11 may 2019',
+//   total_expenditure: 100,
+//   paid_by: 3,
+//   event_id: 8,
+//   user_id: 3,
+//   to_pay: 50,
+//   username: 'user1',
+//   email: 'user1@abc.com' }
+// here is the eventsPaidByUser events { event_name: 'name',
+//   date: '11 may 2019',
+//   total_expenditure: 100,
+//   paid_by: 3,
+//   event_id: 8,
+//   user_id: 4,
+//   to_pay: 50,
+//   username: 'user4',
+//   email: 'user4@abc.com' }
+// here is the eventsPaidByUser events { event_name: 'name',
+//   date: '11 may 2019',
+//   total_expenditure: 100,
+//   paid_by: 3,
+//   event_id: 9,
+//   user_id: 3,
+//   to_pay: 50,
+//   username: 'user1',
+//   email: 'user1@abc.com' }
+// here is the eventsPaidByUser events { event_name: 'name',
+//   date: '11 may 2019',
+//   total_expenditure: 100,
+//   paid_by: 3,
+//   event_id: 9,
+//   user_id: 4,
+//   to_pay: 50,
+//   username: 'user4',
+//   email: 'user4@abc.com' }
+// here is the eventsPaidByUser events { event_name: 'Name',
+//   date: '11 May 2019',
+//   total_expenditure: 100,
+//   paid_by: 3,
+//   event_id: 10,
+//   user_id: 3,
+//   to_pay: 50,
+//   username: 'user1',
+//   email: 'user1@abc.com' }
+// here is the eventsPaidByUser events { event_name: 'Name',
+//   date: '11 May 2019',
+//   total_expenditure: 100,
+//   paid_by: 3,
+//   event_id: 10,
+//   user_id: 4,
+//   to_pay: 50,
+//   username: 'user4',
+//   email: 'user4@abc.com' }
+    if(event.user_id===userId){
+      continue;
+    }
+    recievables.push({
+      event_name:event.event_name,
+      date:event.date,
+      email: event.email,
+      username:event.username,
+      to_get :event.to_pay
+
+
+
+
+    })
+    
+  }
+  res.status(200).json({ message: "hiHere afre your recievables",recievables } );
+});
 
 module.exports = router;
