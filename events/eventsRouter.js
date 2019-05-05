@@ -77,7 +77,7 @@ router.post("/", restircted, async (req, res) => {
         event_name: event.event_name,
         description: event.description,
         date: event.date,
-        total_expenditure: event.total_expenditure,
+        total_expenditure: parseFloat(event.total_expenditure),
         paid_by: event.paid_by
       };
 
