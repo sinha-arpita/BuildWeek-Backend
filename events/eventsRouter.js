@@ -81,7 +81,7 @@ router.post("/", restircted, async (req, res) => {
         paid_by: event.paid_by
       };
 
-      const eid = await eventDB.add(newEvent); //event created after all testings and verification
+      const eid = eventDB.add(newEvent); //event created after all testings and verification
       console.log("Got id as ", eid);
       if (!eid || eid <= 0) {
         console.log("Failed to insert event...");
