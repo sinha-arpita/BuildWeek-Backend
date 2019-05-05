@@ -97,13 +97,15 @@ router.post("/", restircted, async (req, res) => {
 
       for (let i = 0; i < ids.length; i++) {
         // loop through all the userids stored in the array who were participants in the event
-        console.log("Adding user ", ids[i]);
-        const mapEntry = await mapsDB.add({
+
+        const mapEntry = {
           event_id: eid,
           user_id: ids[i],
           to_pay: event.total_expenditure / n
-        });
-        console.log("Here is the map Entry", mapEntry);
+        };
+        console.log("Adding user ", ids[i], mapEntry);
+        await mapsDB.add(mapEntry);
+        console.log("Map entry added");
       }
 
       res.status(200).json({ message: "Event added" });
