@@ -64,6 +64,7 @@ router.post("/", restircted, async (req, res) => {
           res
             .status(400)
             .json({ message: "No user for participant " + participants[i] });
+          console.log("No participant for " + participants[i]);
           return;
         }
         console.log(participant);
@@ -83,6 +84,7 @@ router.post("/", restircted, async (req, res) => {
       const eid = await eventDB.add(newEvent); //event created after all testings and verification
       console.log("Got id as ", eid);
       if (!eid || eid <= 0) {
+        console.log("Failed to insert event...");
         res.status(400).json({ message: "Failed to insert event..." });
         return;
       }
@@ -208,77 +210,74 @@ router.get("/recievables", restircted, async (req, res) => {
 
     //})//in event I got everything;
     //Got entries  in console .log
-// here is the eventsPaidByUser events { event_name: 'name',
-//   date: '11 may 2019',
-//   total_expenditure: 100,
-//   paid_by: 3,
-//   event_id: 8,
-//   user_id: 3,
-//   to_pay: 50,
-//   username: 'user1',
-//   email: 'user1@abc.com' }
-// here is the eventsPaidByUser events { event_name: 'name',
-//   date: '11 may 2019',
-//   total_expenditure: 100,
-//   paid_by: 3,
-//   event_id: 8,
-//   user_id: 4,
-//   to_pay: 50,
-//   username: 'user4',
-//   email: 'user4@abc.com' }
-// here is the eventsPaidByUser events { event_name: 'name',
-//   date: '11 may 2019',
-//   total_expenditure: 100,
-//   paid_by: 3,
-//   event_id: 9,
-//   user_id: 3,
-//   to_pay: 50,
-//   username: 'user1',
-//   email: 'user1@abc.com' }
-// here is the eventsPaidByUser events { event_name: 'name',
-//   date: '11 may 2019',
-//   total_expenditure: 100,
-//   paid_by: 3,
-//   event_id: 9,
-//   user_id: 4,
-//   to_pay: 50,
-//   username: 'user4',
-//   email: 'user4@abc.com' }
-// here is the eventsPaidByUser events { event_name: 'Name',
-//   date: '11 May 2019',
-//   total_expenditure: 100,
-//   paid_by: 3,
-//   event_id: 10,
-//   user_id: 3,
-//   to_pay: 50,
-//   username: 'user1',
-//   email: 'user1@abc.com' }
-// here is the eventsPaidByUser events { event_name: 'Name',
-//   date: '11 May 2019',
-//   total_expenditure: 100,
-//   paid_by: 3,
-//   event_id: 10,
-//   user_id: 4,
-//   to_pay: 50,
-//   username: 'user4',
-//   email: 'user4@abc.com' }
-    if(event.user_id===userId){
+    // here is the eventsPaidByUser events { event_name: 'name',
+    //   date: '11 may 2019',
+    //   total_expenditure: 100,
+    //   paid_by: 3,
+    //   event_id: 8,
+    //   user_id: 3,
+    //   to_pay: 50,
+    //   username: 'user1',
+    //   email: 'user1@abc.com' }
+    // here is the eventsPaidByUser events { event_name: 'name',
+    //   date: '11 may 2019',
+    //   total_expenditure: 100,
+    //   paid_by: 3,
+    //   event_id: 8,
+    //   user_id: 4,
+    //   to_pay: 50,
+    //   username: 'user4',
+    //   email: 'user4@abc.com' }
+    // here is the eventsPaidByUser events { event_name: 'name',
+    //   date: '11 may 2019',
+    //   total_expenditure: 100,
+    //   paid_by: 3,
+    //   event_id: 9,
+    //   user_id: 3,
+    //   to_pay: 50,
+    //   username: 'user1',
+    //   email: 'user1@abc.com' }
+    // here is the eventsPaidByUser events { event_name: 'name',
+    //   date: '11 may 2019',
+    //   total_expenditure: 100,
+    //   paid_by: 3,
+    //   event_id: 9,
+    //   user_id: 4,
+    //   to_pay: 50,
+    //   username: 'user4',
+    //   email: 'user4@abc.com' }
+    // here is the eventsPaidByUser events { event_name: 'Name',
+    //   date: '11 May 2019',
+    //   total_expenditure: 100,
+    //   paid_by: 3,
+    //   event_id: 10,
+    //   user_id: 3,
+    //   to_pay: 50,
+    //   username: 'user1',
+    //   email: 'user1@abc.com' }
+    // here is the eventsPaidByUser events { event_name: 'Name',
+    //   date: '11 May 2019',
+    //   total_expenditure: 100,
+    //   paid_by: 3,
+    //   event_id: 10,
+    //   user_id: 4,
+    //   to_pay: 50,
+    //   username: 'user4',
+    //   email: 'user4@abc.com' }
+    if (event.user_id === userId) {
       continue;
     }
     recievables.push({
-      event_name:event.event_name,
-      date:event.date,
+      event_name: event.event_name,
+      date: event.date,
       email: event.email,
-      username:event.username,
-      to_get :event.to_pay
-
-
-
-
-    })
-    
+      username: event.username,
+      to_get: event.to_pay
+    });
   }
-  res.status(200).json({ message: "hiHere afre your recievables",recievables } );
+  res
+    .status(200)
+    .json({ message: "hiHere afre your recievables", recievables });
 });
 
 module.exports = router;
