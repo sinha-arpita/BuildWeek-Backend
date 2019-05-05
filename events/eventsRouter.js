@@ -81,7 +81,7 @@ router.post("/", restircted, async (req, res) => {
         paid_by: event.paid_by
       };
 
-      const eid = eventDB.add(newEvent); //event created after all testings and verification
+      const eid = await eventDB.add(newEvent); //event created after all testings and verification
       console.log("Got id as ", eid);
       if (!eid || eid <= 0) {
         console.log("Failed to insert event...");
@@ -121,7 +121,6 @@ router.post("/", restircted, async (req, res) => {
     });
   }
 });
-
 
 router.get("/getdues", restircted, async (req, res) => {
   const userId = req.userInfo.subject;
@@ -202,8 +201,7 @@ router.get("/recievables", restircted, async (req, res) => {
   for (let i = 0; i < eventsPaidByUser.length; i++) {
     const event = eventsPaidByUser[i];
     console.log("here is the eventsPaidByUser events", event);
-    
-    
+
     if (event.user_id === userId) {
       continue;
     }
@@ -213,7 +211,7 @@ router.get("/recievables", restircted, async (req, res) => {
       email: event.email,
       username: event.username,
       to_get: event.to_pay,
-      phone : event.phone
+      phone: event.phone
     });
   }
   res
@@ -221,33 +219,29 @@ router.get("/recievables", restircted, async (req, res) => {
     .json({ message: "hiHere afre your recievables", recievables });
 });
 
-function sendSMS(toPhone, message){
-  const accountSid = 'ACdc99e303eb69eb0651ded206f69ced7d';
-  const authToken = '21f6f60a58b904a921f624a9456e4f21';
-  const client = require('twilio')(accountSid, authToken);
+function sendSMS(toPhone, message) {
+  const accountSid = "ACdc99e303eb69eb0651ded206f69ced7d";
+  const authToken = "21f6f60a58b904a921f624a9456e4f21";
+  const client = require("twilio")(accountSid, authToken);
 
   client.messages
     .create({
-       body: message,
-       from: '+14085835174',
-       to: toPhone
- })
-.then(message => console.log(message.sid));
+      body: message,
+      from: "+14085835174",
+      to: toPhone
+    })
+    .then(message => console.log(message.sid));
 }
 //
 // {"phone" : "12345", "username" : "Arpita", "to_pay" : 50}
 //
-router.post ("/sendmessage",restircted,(req,res)=>{
-  
-  const toPhone= req.body.phone;
-  const message=` Hey,${req.body.username}you, owe me ${to_pay} dollars.!`;
+router.post("/sendmessage", restircted, (req, res) => {
+  const toPhone = req.body.phone;
+  const message = ` Hey,${req.body.username}you, owe me ${to_pay} dollars.!`;
 
   //sendSMS(toPhone,message);
   console.log("Sending ", message, "to", toPhone);
-  res.status(200).json({message:"check your message"})
-
-})
-
-
+  res.status(200).json({ message: "check your message" });
+});
 
 module.exports = router;
