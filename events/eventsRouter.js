@@ -122,6 +122,7 @@ router.post("/", restircted, async (req, res) => {
   }
 });
 
+
 router.get("/getdues", restircted, async (req, res) => {
   const userId = req.userInfo.subject;
   console.log("Got user id as " + userId);
@@ -279,5 +280,21 @@ router.get("/recievables", restircted, async (req, res) => {
     .status(200)
     .json({ message: "hiHere afre your recievables", recievables });
 });
+
+function sendSMS(toPhone, message){
+  const accountSid = 'ACdc99e303eb69eb0651ded206f69ced7d';
+  const authToken = '21f6f60a58b904a921f624a9456e4f21';
+  const client = require('twilio')(accountSid, authToken);
+
+  client.messages
+    .create({
+       body: message,
+       from: '+14085835174',
+       to: toPhone
+ })
+.then(message => console.log(message.sid));
+}
+
+
 
 module.exports = router;
