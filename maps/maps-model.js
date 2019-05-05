@@ -44,7 +44,7 @@ async function findBy(filter) {
 // },
 
 async function add(map) {
-  const [id] = await db("maps").insert(map);
+  const [id] = await db("maps").insert(map,["id"]);
 
   return id;
 }
