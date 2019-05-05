@@ -99,7 +99,7 @@ router.post("/", restircted, async (req, res) => {
         // loop through all the userids stored in the array who were participants in the event
 
         const mapEntry = {
-          event_id: eid,
+          event_id: eid.id,
           user_id: ids[i],
           to_pay: event.total_expenditure / n
         };
