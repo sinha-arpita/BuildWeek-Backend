@@ -202,69 +202,8 @@ router.get("/recievables", restircted, async (req, res) => {
   for (let i = 0; i < eventsPaidByUser.length; i++) {
     const event = eventsPaidByUser[i];
     console.log("here is the eventsPaidByUser events", event);
-    //const payees = (maps.user_id!=userId)
-    //const TotalMoneyOwes = event.total_expenditure/eventsPresent.participants-1;
-
-    // console.log(payees)
-    // owes.push({
-    //payees
-
-    //})//in event I got everything;
-    //Got entries  in console .log
-    // here is the eventsPaidByUser events { event_name: 'name',
-    //   date: '11 may 2019',
-    //   total_expenditure: 100,
-    //   paid_by: 3,
-    //   event_id: 8,
-    //   user_id: 3,
-    //   to_pay: 50,
-    //   username: 'user1',
-    //   email: 'user1@abc.com' }
-    // here is the eventsPaidByUser events { event_name: 'name',
-    //   date: '11 may 2019',
-    //   total_expenditure: 100,
-    //   paid_by: 3,
-    //   event_id: 8,
-    //   user_id: 4,
-    //   to_pay: 50,
-    //   username: 'user4',
-    //   email: 'user4@abc.com' }
-    // here is the eventsPaidByUser events { event_name: 'name',
-    //   date: '11 may 2019',
-    //   total_expenditure: 100,
-    //   paid_by: 3,
-    //   event_id: 9,
-    //   user_id: 3,
-    //   to_pay: 50,
-    //   username: 'user1',
-    //   email: 'user1@abc.com' }
-    // here is the eventsPaidByUser events { event_name: 'name',
-    //   date: '11 may 2019',
-    //   total_expenditure: 100,
-    //   paid_by: 3,
-    //   event_id: 9,
-    //   user_id: 4,
-    //   to_pay: 50,
-    //   username: 'user4',
-    //   email: 'user4@abc.com' }
-    // here is the eventsPaidByUser events { event_name: 'Name',
-    //   date: '11 May 2019',
-    //   total_expenditure: 100,
-    //   paid_by: 3,
-    //   event_id: 10,
-    //   user_id: 3,
-    //   to_pay: 50,
-    //   username: 'user1',
-    //   email: 'user1@abc.com' }
-    // here is the eventsPaidByUser events { event_name: 'Name',
-    //   date: '11 May 2019',
-    //   total_expenditure: 100,
-    //   paid_by: 3,
-    //   event_id: 10,
-    //   user_id: 4,
-    //   to_pay: 50,
-    //   username: 'user4',
-    //   email: 'user4@abc.com' }
+    
+    
     if (event.user_id === userId) {
       continue;
     }
@@ -273,7 +212,8 @@ router.get("/recievables", restircted, async (req, res) => {
       date: event.date,
       email: event.email,
       username: event.username,
-      to_get: event.to_pay
+      to_get: event.to_pay,
+      phone : event.phone
     });
   }
   res
@@ -294,6 +234,19 @@ function sendSMS(toPhone, message){
  })
 .then(message => console.log(message.sid));
 }
+//
+// {"phone" : "12345", "username" : "Arpita", "to_pay" : 50}
+//
+router.post ("/sendmessage",restircted,(req,res)=>{
+  
+  const toPhone= req.body.phone;
+  const message=` Hey,${req.body.username}you, owe me ${to_pay} dollars.!`;
+
+  //sendSMS(toPhone,message);
+  console.log("Sending ", message, "to", toPhone);
+  res.status(200).json({message:"check your message"})
+
+})
 
 
 

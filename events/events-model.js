@@ -26,7 +26,8 @@ function find() {
             "user_id",
             "to_pay",
             "username",
-            "email"
+            "email",
+            "phone"
           )
           .from("events")
           .where(filter)
