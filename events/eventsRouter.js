@@ -238,13 +238,14 @@ function sendSMS(toPhone, message) {
 // {"phone" : "12345", "username" : "Arpita", "to_pay" : 50}
 //
 router.post("/sendmessage", restircted, (req, res) => {
-  console.log("Got send message req ", req.body)
+  console.log("Got send message req ", req.body);
   const toPhone = req.body.phone;
   const to_pay = req.body.to_get;
-  const message = ` Hey,${req.body.username}you, owe me ${to_pay} dollars.!`;
+  const message = ` Hey, ${req.body.username} you, owe me ${to_pay} dollars.!`;
 
-  //sendSMS(toPhone,message);
   console.log("Sending ", message, "to", toPhone);
+  sendSMS(toPhone, message);
+
   res.status(200).json({ message: "check your message" });
 });
 
