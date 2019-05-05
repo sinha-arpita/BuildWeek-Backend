@@ -41,7 +41,7 @@ function find() {
 
 
 async function add(event) {
-  const [id] = await db('events').insert(event);
+  const [id] = await db('events').returning('id').insert(event);
 
   return id;
 }
