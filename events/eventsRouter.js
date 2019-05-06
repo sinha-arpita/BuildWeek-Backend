@@ -56,7 +56,10 @@ router.post("/", restircted, async (req, res) => {
       //for loop
       let ids = [];
       //event.participants is an array of emails of users participated in a particular event
-      const participants = event.participants;
+      const participants = event.participants.map(part => {
+        return part.trim();
+      });
+
       console.log("Participants ", participants);
       for (let i = 0; i < event.participants.length; i++) {
         let [participant] = await Users.findBy({ email: participants[i] }); // participant is the whole object containing the entire row

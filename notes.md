@@ -84,3 +84,4 @@ response from login
    "message": "Welcomealok5!, Here is your token:",
    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijo0LCJ1c2VybmFtZSI6ImFsb2s1IiwicGhvbmUiOjEyMzQsImVtYWlsIjoic2RqZWxkZmplbGZqIiwiaWF0IjoxNTU2MTc1OTIwLCJleHAiOjE1NTYyNjIzMjB9.RnMD-8Wz53aRhqyVoFkvrpDLifMwzbud-i6qc4aMHPM"
 }
+Hey everyone, I just wanted to give a tip/reminder to those who are deploying their servers with heroku and heroku postgres. Make sure you are passing a "returning" parameter to knex functions like `.insert` to make sure you get an id back (if that's what you need). When you use sqlite3 locally, it does this automatically but you need to set it manually for it to work on heroku. So instead of `db("users").insert(data)` you should write `db("users").insert(data, ["id"])`. Make sure to read the knex docs to see which functions require the "returning" parameter when using postgres.
