@@ -239,7 +239,7 @@ function sendSMS(toPhone, message) {
 //
 router.post("/sendmessage", restircted, (req, res) => {
   console.log("Got send message req ", req.body);
-  const toPhone = req.body.phone;
+  const toPhone = '+1' + req.body.phone;
   const to_pay = req.body.to_get;
   const message = ` Hey, ${req.body.username} you, owe me ${to_pay} dollars.!`;
 
